@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Helpers\ApiResponse;
+use App\Http\Requests\StoreBukuRequest;
+use App\Http\Requests\UpdateBukuRequest;
+use App\Services\BukuService;
+use Illuminate\Http\Request;
+
+class BukuController extends Controller
+{
+    protected $bukuService;
+
+    public function __construct(BukuService $bukuService)
+    {
+        $this->bukuService = $bukuService;
+    }
+
+    public function index()
+    {
+        $buku = $this->bukuService->getAllBuku();
+
+        if (!$buku) {
+            return ApiResponse::error('Data tidak ditemukan', 404);
+        }
+
+        return ApiResponse::success($buku, 'Daftar Buku');
+    }
+
+    public function show($id)
+    {
+        $buku = $this->bukuService->getBukuById($id);
+
+        if (!$buku) {
+            return ApiResponse::error('Buku tidak ditemukan', 404);
+        }
+
+        return ApiResponse::success($buku, 'Data buku');
+    }
+
+    public function store(StoreBukuRequest $request)
+    {
+        $buku = $this->bukuService->createBuku($request->validated());
+
+        if (!$buku) {
+            return ApiResponse::error('Gagal menambahkan data', 400);
+        }
+
+        return ApiResponse::success($buku, 'Buku berhasil ditambahkan');
+    }
+
+    public function update(UpdateBukuRequest $request, $id)
+    {
+        $buku = $this->bukuService->updateBuku($id, $request->validated());
+
+        if (!$buku) {
+            return ApiResponse::error('Gagal memperbarui data', 400);
+        }
+
+        return ApiResponse::success($buku, 'Buku berhasil diperbarui');
+    }
+
+    public function destroy($id)
+    {
+        $buku = $this->bukuService->deleteBuku($id);
+
+        if (!$buku) {
+            return ApiResponse::error('Gagal menghapus data', 400);
+        }
+
+        return ApiResponse::success(null, 'Buku berhasil dihapus');
+    }
+}
