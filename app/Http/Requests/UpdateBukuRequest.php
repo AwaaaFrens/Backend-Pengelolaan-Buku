@@ -26,7 +26,7 @@ class UpdateBukuRequest extends FormRequest
     {
         return [
             'judul' => 'string',
-            'penulis' => 'string',
+            'author_id' => 'exists:authors,id',
             'genre' => 'array',
             'genre.*' => 'string',
             'tahun_rilis' => 'digits:4|integer|min:1900|max:' . date('Y'),
@@ -39,7 +39,7 @@ class UpdateBukuRequest extends FormRequest
     {
         return [
             'judul.string' => 'judul harus berupa teks',
-            'penulis.string' => 'penulis harus berupa teks',
+            'author_id.exists' => 'id author tidak ada',
 
             'genre.array' => 'genre harus berupa array',
             'genre.*' => 'genre harus berupa teks',

@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Buku extends Model
+class Author extends Model
 {
     use SoftDeletes;
     
     protected $guarded = [];
-    protected $casts = ['genre' => 'array'];
     protected $hidden = ['created_at'];
 
-    public function authors()
+    public function bukus()
     {
-        return $this->belongsTo(Author::class);
+        return $this->hasMany(Buku::class);
     }
 }

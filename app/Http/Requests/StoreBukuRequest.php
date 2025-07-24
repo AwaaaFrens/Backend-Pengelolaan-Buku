@@ -26,7 +26,7 @@ class StoreBukuRequest extends FormRequest
     {
         return [
             'judul' => 'required|string',
-            'penulis' => 'required|string',
+            'author_id' => 'required|exists:authors,id',
             'genre' => 'required|array',
             'genre.*' => 'string',
             'tahun_rilis' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
@@ -41,8 +41,8 @@ class StoreBukuRequest extends FormRequest
             'judul.required' => 'judul tidak boleh kosong',
             'judul.string' => 'judul harus berupa teks',
 
-            'penulis.required' => 'penulis tidak boleh kosong',
-            'penulis.string' => 'penulis harus berupa teks',
+            'authors_id.required' => 'penulis tidak boleh kosong',
+            'authors_id.exists' => 'id penulis tidak ada',
 
             'genre.required' => 'genre tidak boleh kosong',
             'genre.array' => 'genre harus berupa array',

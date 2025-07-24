@@ -29,7 +29,7 @@ class BukuRepository extends BaseRepository implements BukuInterface
 
     public function findBySlug(string $slug)
     {
-        return $this->model->where('slug', $slug)->first();
+        return $this->model->query()->where('slug', $slug)->first();
     }
 
     public function update(int|string $id, array $data): mixed
