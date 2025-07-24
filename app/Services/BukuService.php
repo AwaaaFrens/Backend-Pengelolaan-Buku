@@ -23,6 +23,11 @@ class BukuService
         return $this->bukuRepo->show($id);
     }
 
+    public function getBukuBySlug($slug)
+    {
+        return $this->bukuRepo->findBySlug($slug);
+    }
+
     public function createBuku(array $data)
     {
         return $this->bukuRepo->store($data);
@@ -36,5 +41,10 @@ class BukuService
     public function deleteBuku($id)
     {
         return $this->bukuRepo->delete($id);
+    }
+
+    public function restoreBuku($id)
+    {
+        return $this->bukuRepo->restore($id);
     }
 }

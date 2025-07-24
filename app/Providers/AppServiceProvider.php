@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Contracts\Interfaces\BukuInterface;
+use App\Models\Buku;
+use App\Observers\BukuObserver;
 use App\Services\BukuService;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Buku::observe(BukuObserver::class);
     }
 }

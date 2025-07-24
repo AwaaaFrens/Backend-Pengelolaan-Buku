@@ -27,6 +27,11 @@ class BukuRepository extends BaseRepository implements BukuInterface
         return $this->model->query()->find($id);
     }
 
+    public function findBySlug(string $slug)
+    {
+        return $this->model->where('slug', $slug)->first();
+    }
+
     public function update(int|string $id, array $data): mixed
     {
         $buku = $this->model->query()->find($id);
@@ -37,5 +42,10 @@ class BukuRepository extends BaseRepository implements BukuInterface
     public function delete(int|string $id): mixed
     {
         return $this->model->query()->find($id)->delete();
+    }
+
+    public function restore($id)
+    {
+        return $this->model->withTrashed()->find($id)->restore();
     }
 }

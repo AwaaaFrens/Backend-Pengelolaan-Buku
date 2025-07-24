@@ -39,6 +39,17 @@ class BukuController extends Controller
         return ApiResponse::success($buku, 'Data buku');
     }
 
+    public function showBySlug($slug)
+    {
+        $buku = $this->bukuService->getBukuBySlug($slug);
+
+        if (!$buku) {
+            return ApiResponse::error('Buku tidak ditemukan', 404);
+        }
+
+        return ApiResponse::success($buku, 'Data buku');
+    }
+
     public function store(StoreBukuRequest $request)
     {
         $buku = $this->bukuService->createBuku($request->validated());
@@ -66,9 +77,20 @@ class BukuController extends Controller
         $buku = $this->bukuService->deleteBuku($id);
 
         if (!$buku) {
-            return ApiResponse::error('Gagal menghapus data', 400);
+            return ApiResponse::error('Data telah dihapus', 404);
         }
 
         return ApiResponse::success(null, 'Buku berhasil dihapus');
+    }
+
+    public function restore($id)
+    {
+        $buku = $this->bukuService->restoreBuku($id);
+
+        if (!$buku) {
+            return ApiResponse::error('Gagal mengembalikan data', 400);
+        }
+
+        return ApiResponse::success($buku, 'Buku berhasil dikembalikan');
     }
 }

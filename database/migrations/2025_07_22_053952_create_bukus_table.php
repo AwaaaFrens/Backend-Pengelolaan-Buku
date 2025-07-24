@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('isbn');
             $table->decimal('rating', 3, 1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
