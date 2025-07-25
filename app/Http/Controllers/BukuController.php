@@ -17,11 +17,14 @@ class BukuController extends Controller
         $this->bukuService = $bukuService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $buku = $this->bukuService->getAllBuku();
+        $genre = $request->query('genre');
+        $author = $request->query('author');
 
-        if (!$buku) {
+        $buku = $this->bukuService->getAllBuku($genre, $author);
+
+        if ($buku->isEmpty()) {
             return ApiResponse::error('Data tidak ditemukan', 404);
         }
 

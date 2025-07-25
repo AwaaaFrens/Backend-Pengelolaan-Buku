@@ -15,5 +15,4 @@ interface BukuInterface extends
     ShowInterface,
     DeleteInterface
 {
-    // Define your methods here
 }

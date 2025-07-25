@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\ApiResponse;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreAuthorRequest extends FormRequest
 {
@@ -35,5 +38,12 @@ class StoreAuthorRequest extends FormRequest
 
             'bio.string' => 'bio harus berupa string'
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            ApiResponse::error('Data tidak valid', 400, $validator->errors())
+        );
     }
 }

@@ -13,9 +13,9 @@ class BukuService
         $this->bukuRepo = $bukuRepo;
     }
 
-    public function getAllBuku()
+    public function getAllBuku(?string $genre = null, ?string $author = null)
     {
-        return $this->bukuRepo->get();
+        return $this->bukuRepo->get($genre, $author);
     }
 
     public function getBukuById($id)

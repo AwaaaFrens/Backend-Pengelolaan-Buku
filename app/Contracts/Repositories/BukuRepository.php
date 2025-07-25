@@ -12,9 +12,19 @@ class BukuRepository extends BaseRepository implements BukuInterface
         $this->model = $buku; /* $menyimpan instance tadi ke BaseRepo */
     }
 
-    public function get(): mixed // mixed berarti return type nya bisa berupa apa saja
+    public function get(?string $genre = null, ?string $author = null): mixed // mixed berarti return type nya bisa berupa apa saja
     {
-        return $this->model->query()->get(); // Buku::query()
+        $query = $this->model->query();
+
+        if ($genre) {
+            $query->where('genre', 'like', "%{$genre}%");
+        }
+
+        if ($author) {
+            $query->where('author', 'like', "%{$author}%");
+        }
+
+        return $query->get();
     }
 
     public function store(array $data): mixed // array berarti data nya harus berupa array
