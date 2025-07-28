@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use App\HasFormattedTimestamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Buku extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFormattedTimestamps;
     
     protected $guarded = [];
     protected $casts = ['genre' => 'array'];
-    protected $hidden = ['created_at'];
 
     public function authors()
     {

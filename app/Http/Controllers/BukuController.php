@@ -53,6 +53,13 @@ class BukuController extends Controller
         return ApiResponse::success($buku, 'Data buku');
     }
 
+    public function jumlahPerGenre()
+    {
+        $data = $this->bukuService->getJumlahBukuByGenre();
+
+        return ApiResponse::success($data, 'Jumlah Buku per Genre');
+    }
+
     public function store(StoreBukuRequest $request)
     {
         $buku = $this->bukuService->createBuku($request->validated());

@@ -4,6 +4,7 @@ namespace App\Contracts\Repositories;
 
 use App\Contracts\Interfaces\AuthorInterface;
 use App\Models\Author;
+use Illuminate\Support\Facades\DB;
 
 class AuthorRepository extends BaseRepository implements AuthorInterface
 {
@@ -12,7 +13,7 @@ class AuthorRepository extends BaseRepository implements AuthorInterface
         $this->model = $Author;
     }
 
-    public function get(): mixed
+    public function get(?string $genre = null, ?string $author = null): mixed
     {
         return $this->model->query()->get();
     }

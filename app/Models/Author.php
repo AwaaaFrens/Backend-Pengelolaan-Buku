@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\HasFormattedTimestamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Author extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFormattedTimestamps;
     
     protected $guarded = [];
     protected $hidden = ['created_at'];

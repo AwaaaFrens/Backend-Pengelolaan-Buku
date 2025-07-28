@@ -2,8 +2,9 @@
 
 namespace App\Contracts\Repositories;
 
-use App\Contracts\Interfaces\BukuInterface;
 use App\Models\Buku;
+use Illuminate\Support\Facades\DB;
+use App\Contracts\Interfaces\BukuInterface;
 
 class BukuRepository extends BaseRepository implements BukuInterface
 {
@@ -57,5 +58,17 @@ class BukuRepository extends BaseRepository implements BukuInterface
     public function restore($id)
     {
         return $this->model->withTrashed()->find($id)->restore();
+    }
+
+    public function jumlahBukuByGenre()
+    {
+        return Buku::all(['genre'])
+            ->flatMap(fn($buku) => $buku->genre ?: []) // ambil genre tiap buku terus dijadiin horizontal ?: artinya kalo genre null kembaliin array kosong
+            ->countBy() // hitung berapa kali item muncul
+            ->map(fn($jumlah, $genre) => [ // transform tiap item dengan format genre dan jumlah
+                'genre' => $genre, // kembaliin data genre dengan jumlahnya berapa
+                'jumlah' => $jumlah
+            ])
+            ->values();
     }
 }

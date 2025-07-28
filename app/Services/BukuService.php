@@ -28,6 +28,11 @@ class BukuService
         return $this->bukuRepo->findBySlug($slug);
     }
 
+    public function getJumlahBukuByGenre()
+    {
+        return $this->bukuRepo->jumlahBukuByGenre();
+    }
+
     public function createBuku(array $data)
     {
         return $this->bukuRepo->store($data);

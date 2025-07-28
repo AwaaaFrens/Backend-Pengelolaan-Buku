@@ -10,6 +10,7 @@ use App\Observers\AuthorObserver;
 use App\Observers\BukuObserver;
 use App\Services\AuthorService;
 use App\Services\BukuService;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,5 +35,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Buku::observe(BukuObserver::class);
         Author::observe(AuthorObserver::class);
+        Carbon::setLocale('id');
     }
 }
