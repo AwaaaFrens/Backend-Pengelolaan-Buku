@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ApiResponse;
+use App\Helpers\ApiResponseHelper;
 use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
 use App\Services\BukuService;
@@ -25,10 +25,10 @@ class BukuController extends Controller
         $buku = $this->bukuService->getAllBuku($genre, $author);
 
         if ($buku->isEmpty()) {
-            return ApiResponse::error('Data tidak ditemukan', 404);
+            return ApiResponseHelper::error('Data tidak ditemukan', 404);
         }
 
-        return ApiResponse::success($buku, 'Daftar Buku');
+        return ApiResponseHelper::success($buku, 'Daftar Buku');
     }
 
     public function show($id)
@@ -36,10 +36,10 @@ class BukuController extends Controller
         $buku = $this->bukuService->getBukuById($id);
 
         if (!$buku) {
-            return ApiResponse::error('Buku tidak ditemukan', 404);
+            return ApiResponseHelper::error('Buku tidak ditemukan', 404);
         }
 
-        return ApiResponse::success($buku, 'Data buku');
+        return ApiResponseHelper::success($buku, 'Data buku');
     }
 
     public function showBySlug($slug)
@@ -47,17 +47,17 @@ class BukuController extends Controller
         $buku = $this->bukuService->getBukuBySlug($slug);
 
         if (!$buku) {
-            return ApiResponse::error('Buku tidak ditemukan', 404);
+            return ApiResponseHelper::error('Buku tidak ditemukan', 404);
         }
 
-        return ApiResponse::success($buku, 'Data buku');
+        return ApiResponseHelper::success($buku, 'Data buku');
     }
 
     public function jumlahPerGenre()
     {
         $data = $this->bukuService->getJumlahBukuByGenre();
 
-        return ApiResponse::success($data, 'Jumlah Buku per Genre');
+        return ApiResponseHelper::success($data, 'Jumlah Buku per Genre');
     }
 
     public function store(StoreBukuRequest $request)
@@ -65,10 +65,10 @@ class BukuController extends Controller
         $buku = $this->bukuService->createBuku($request->validated());
 
         if (!$buku) {
-            return ApiResponse::error('Gagal menambahkan data', 400);
+            return ApiResponseHelper::error('Gagal menambahkan data', 400);
         }
 
-        return ApiResponse::success($buku, 'Buku berhasil ditambahkan');
+        return ApiResponseHelper::success($buku, 'Buku berhasil ditambahkan');
     }
 
     public function update(UpdateBukuRequest $request, $id)
@@ -76,10 +76,10 @@ class BukuController extends Controller
         $buku = $this->bukuService->updateBuku($id, $request->validated());
 
         if (!$buku) {
-            return ApiResponse::error('Gagal memperbarui data', 400);
+            return ApiResponseHelper::error('Gagal memperbarui data', 400);
         }
 
-        return ApiResponse::success($buku, 'Buku berhasil diperbarui');
+        return ApiResponseHelper::success($buku, 'Buku berhasil diperbarui');
     }
 
     public function destroy($id)
@@ -87,10 +87,10 @@ class BukuController extends Controller
         $buku = $this->bukuService->deleteBuku($id);
 
         if (!$buku) {
-            return ApiResponse::error('Data telah dihapus', 404);
+            return ApiResponseHelper::error('Data telah dihapus', 404);
         }
 
-        return ApiResponse::success(null, 'Buku berhasil dihapus');
+        return ApiResponseHelper::success(null, 'Buku berhasil dihapus');
     }
 
     public function restore($id)
@@ -98,9 +98,9 @@ class BukuController extends Controller
         $buku = $this->bukuService->restoreBuku($id);
 
         if (!$buku) {
-            return ApiResponse::error('Gagal mengembalikan data', 400);
+            return ApiResponseHelper::error('Gagal mengembalikan data', 400);
         }
 
-        return ApiResponse::success($buku, 'Buku berhasil dikembalikan');
+        return ApiResponseHelper::success($buku, 'Buku berhasil dikembalikan');
     }
 }
