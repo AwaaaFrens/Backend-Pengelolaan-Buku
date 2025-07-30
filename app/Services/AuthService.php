@@ -3,8 +3,11 @@
 namespace App\Services;
 
 use App\Contracts\Repositories\AuthRepository;
+use App\Enum\UserRole;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
@@ -17,11 +20,28 @@ class AuthService
 
     public function register(RegisterRequest $request)
     {
-        return $this->authrepo->register($request);
+        $user = $this->authrepo->createUser([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        $user->assignRole(UserRole::Member->value);
     }
 
     public function login(LoginRequest $request)
     {
-        return $this->authrepo->login($request);
+        $user = $this->authrepo->findByEmail($request->email);
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return null;
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return [
+            'user' => new UserResource($user),
+            'token' => $token
+        ];
     }
 }

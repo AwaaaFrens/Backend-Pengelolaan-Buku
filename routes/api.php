@@ -1,9 +1,15 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BukuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+Route::prefix('auth')->group(function () {
+    Route::post('register', [AuthController::class, 'register'])->middleware('throttle:5,1');
+    Route::post('login', [AuthController::class, 'login']);
+});
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('buku', [BukuController::class, 'index']);

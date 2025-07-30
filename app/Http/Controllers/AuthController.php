@@ -19,9 +19,9 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $result = $this->authservice->register($request);
+        $this->authservice->register($request);
 
-        return ApiResponseHelper::success($result, 'Registrasi berhasil');
+        return ApiResponseHelper::success(null, 'Registrasi berhasil');
     }
 
     public function login(LoginRequest $request)
