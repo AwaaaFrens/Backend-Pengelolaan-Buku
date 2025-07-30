@@ -34,4 +34,11 @@ class AuthController extends Controller
 
         return ApiResponseHelper::success($result, 'Berhasil Login');
     }
+
+    public function logout(Request $request)
+    {
+        $this->authservice->logout($request->user());
+
+        return ApiResponseHelper::success(null, 'Berhasil Logout');
+    }
 }

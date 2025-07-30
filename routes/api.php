@@ -32,4 +32,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('author/{author}', [AuthorController::class, 'destroy']);
         Route::post('author/{id}/restore', [AuthorController::class, 'restore']);
     });
+
+    Route::post('auth/logout', [AuthController::class, 'logout']);
 });
