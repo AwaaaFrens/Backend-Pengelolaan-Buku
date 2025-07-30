@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\HasFormattedTimestamps;
+use App\Traits\HasFormattedTimestamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
