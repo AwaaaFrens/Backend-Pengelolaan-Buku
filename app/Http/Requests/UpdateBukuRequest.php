@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Helpers\ApiResponse;
+use App\Helpers\ApiResponseHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -60,7 +60,7 @@ class UpdateBukuRequest extends FormRequest
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
-            ApiResponse::error('Data tidak valid', 400, $validator->errors())
+            ApiResponseHelper::error('Data tidak valid', 400, $validator->errors())
         );
     }
 }
