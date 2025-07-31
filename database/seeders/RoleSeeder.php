@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enum\UserRole;
+use App\Enum\UserRoleEnum;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -14,7 +14,7 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::firstOrCreate(['name' => UserRole::Admin->value]);
-        Role::firstOrCreate(['name' => UserRole::Member->value]);
+        Role::firstOrCreate(['name' => UserRoleEnum::Admin->value]);
+        Role::firstOrCreate(['name' => UserRoleEnum::Member->value]);
     }
 }
