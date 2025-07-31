@@ -31,7 +31,8 @@ class UpdateBukuRequest extends FormRequest
             'genre.*' => 'string',
             'tahun_rilis' => 'digits:4|integer|min:1900|max:' . date('Y'),
             'isbn' => 'integer',
-            'rating' => 'numeric|min:0|max:10'
+            'rating' => 'numeric|min:0|max:10',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ];
     }
 
@@ -53,7 +54,11 @@ class UpdateBukuRequest extends FormRequest
 
             'rating.numeric' => 'rating harus berupa angka',
             'rating.min' => 'rating minimal adalah 0',
-            'rating.max' => 'rating maksimal adalah 10'
+            'rating.max' => 'rating maksimal adalah 10',
+
+            'cover_image.image' => 'File foto harus berupa gambar.',
+            'cover_image.mimes' => 'Foto harus berformat jpeg, png, atau jpg.',
+            'cover_image.max' => 'Ukuran foto maksimal 2MB.',
         ];
     }
 
