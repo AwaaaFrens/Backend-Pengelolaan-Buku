@@ -12,7 +12,7 @@ Route::prefix('auth')->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:admin|member'])->group(function () {
     Route::get('buku', [BukuController::class, 'index']);
     Route::get('buku/{id}', [BukuController::class, 'show']);
     Route::get('buku/slug/{slug}', [BukuController::class, 'showBySlug']);
@@ -22,6 +22,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('author/{id}', [AuthorController::class, 'show']);
     Route::get('author/slug/{slug}', [AuthorController::class, 'showBySlug']);
 
+    // untuk admin yah
     Route::middleware(['role:admin'])->group(function (){
         Route::post('buku', [BukuController::class, 'store']);
         Route::put('buku/{buku}', [BukuController::class, 'update']);
