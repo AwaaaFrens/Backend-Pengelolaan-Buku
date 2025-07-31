@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ApiResponse;
-use App\Http\Requests\StoreAuthorRequest;
-use App\Models\Author;
 use App\Services\AuthorService;
-use Illuminate\Http\Request;
+use App\Helpers\ApiResponseHelper;
+use App\Http\Requests\StoreAuthorRequest;
 
 class AuthorController extends Controller
 {
@@ -24,10 +22,10 @@ class AuthorController extends Controller
         $author = $this->authorServ->getAllAuthor();
 
         if (!$author) {
-            return ApiResponse::error('Data tidak ada', 404);
+            return ApiResponseHelper::error('Data tidak ada', 404);
         }
 
-        return ApiResponse::success($author, 'Daftar Author');
+        return ApiResponseHelper::success($author, 'Daftar Author');
     }
 
     /**
@@ -38,10 +36,10 @@ class AuthorController extends Controller
         $author = $this->authorServ->createAuthor($request->validated());
 
         if (!$author) {
-            return ApiResponse::error('Gagal menambah data', 400);
+            return ApiResponseHelper::error('Gagal menambah data', 400);
         }
 
-        return ApiResponse::success($author, 'Data Author');
+        return ApiResponseHelper::success($author, 'Data Author');
     }
 
     /**
@@ -52,10 +50,10 @@ class AuthorController extends Controller
         $author = $this->authorServ->getAuthorById($id);
 
         if (!$author) {
-            return ApiResponse::error('Data tidak ditemukan', 404);
+            return ApiResponseHelper::error('Data tidak ditemukan', 404);
         }
 
-        return ApiResponse::success($author, 'Data Author');
+        return ApiResponseHelper::success($author, 'Data Author');
     }
 
     public function showBySlug($slug)
@@ -63,10 +61,10 @@ class AuthorController extends Controller
         $author = $this->authorServ->getAuthorBySlug($slug);
 
         if (!$author) {
-            return ApiResponse::error('Data tidak ditemukan', 404);
+            return ApiResponseHelper::error('Data tidak ditemukan', 404);
         }
 
-        return ApiResponse::success($author, 'Data Author');
+        return ApiResponseHelper::success($author, 'Data Author');
     }
 
     /**
@@ -77,10 +75,10 @@ class AuthorController extends Controller
         $author = $this->authorServ->updateAuthor($id, $request->validated());
         
         if (!$author) {
-            return ApiResponse::error('Gagal memperbarui data', 400);
+            return ApiResponseHelper::error('Gagal memperbarui data', 400);
         }
 
-        return ApiResponse::success($author, 'Data Author');
+        return ApiResponseHelper::success($author, 'Data Author');
     }
 
     /**
@@ -91,10 +89,10 @@ class AuthorController extends Controller
         $author = $this->authorServ->deleteAuthor($id);
 
         if (!$author) {
-            return ApiResponse::error('Gagal menghapus data', 400);
+            return ApiResponseHelper::error('Gagal menghapus data', 400);
         }
 
-        return ApiResponse::success(null, 'Berhasil menghapus data');
+        return ApiResponseHelper::success(null, 'Berhasil menghapus data');
     }
 
     public function restore($id)
@@ -102,9 +100,9 @@ class AuthorController extends Controller
         $author = $this->authorServ->restoreAuthor($id);
 
         if (!$author) {
-            return ApiResponse::error('Gagal mengembalikan data', 400);
+            return ApiResponseHelper::error('Gagal mengembalikan data', 400);
         }
 
-        return ApiResponse::success(null, 'Berhasil mengembalikan data');
+        return ApiResponseHelper::success(null, 'Berhasil mengembalikan data');
     }
 }
