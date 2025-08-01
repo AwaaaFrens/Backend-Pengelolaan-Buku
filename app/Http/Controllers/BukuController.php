@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponseHelper;
+use App\Helpers\PaginateHelper;
 use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
 use App\Services\BukuService;
@@ -28,7 +29,9 @@ class BukuController extends Controller
             return ApiResponseHelper::error('Data tidak ditemukan', 404);
         }
 
-        return ApiResponseHelper::success($buku, 'Daftar Buku');
+        return ApiResponseHelper::success(
+            PaginateHelper::format($buku), 
+            'Daftar Buku');
     }
 
     public function show($id)
