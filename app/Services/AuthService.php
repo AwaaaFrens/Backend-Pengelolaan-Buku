@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\Repositories\AuthRepository;
-use App\Enum\UserRole;
+use App\Enum\UserRoleEnum;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
@@ -26,7 +26,7 @@ class AuthService
             'password' => Hash::make($request->password)
         ]);
 
-        $user->assignRole(UserRole::Member->value);
+        $user->assignRole(UserRoleEnum::Member->value);
     }
 
     public function login(LoginRequest $request)
