@@ -24,14 +24,19 @@ Route::middleware(['auth:sanctum', 'role:admin|member'])->group(function () {
 
     // untuk admin yah
     Route::middleware(['role:admin'])->group(function (){
+        // buku
         Route::post('buku', [BukuController::class, 'store']);
         Route::put('buku/{buku}', [BukuController::class, 'update']);
         Route::delete('buku/{buku}', [BukuController::class, 'destroy']);
         Route::post('buku/{id}/restore', [BukuController::class, 'restore']);
 
+        // author
         Route::post('author', [AuthorController::class, 'store']);
         Route::put('author/{author}', [AuthorController::class, 'update']);
         Route::delete('author/{author}', [AuthorController::class, 'destroy']);
         Route::post('author/{id}/restore', [AuthorController::class, 'restore']);
+
+        // user
+        
     });
 });
