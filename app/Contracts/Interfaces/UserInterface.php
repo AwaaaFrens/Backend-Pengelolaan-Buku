@@ -16,7 +16,7 @@ interface UserInterface
 
     public function toggleStatus(int $id): ?User;
 
-    public function getUserStatistic(): array;
+    public function getUserStatistics(): array;
 
     public function searchUsers(string $search): Collection;
 

@@ -16,6 +16,6 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = $this->userService->getAllUsers()
+        $users = $this->userService->getAllUsers();
     }
 }
