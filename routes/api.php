@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,11 @@ Route::middleware(['auth:sanctum', 'role:admin|member'])->group(function () {
         Route::post('author/{id}/restore', [AuthorController::class, 'restore']);
 
         // user
-        
+        Route::get('users', [UserController::class, 'index']);
+        Route::get('users/{id}', [UserController::class, 'show']);
+        Route::put('users/{id}', [UserController::class, 'update']);
+        Route::delete('users/{id}', [UserController::class, 'destroy']);
+        Route::patch('users/{id}/toggle-status', [UserController::class, 'toggleStatusUsers']);
+        Route::get('users/statistics', [UserController::class, 'statistics']);
     });
 });
