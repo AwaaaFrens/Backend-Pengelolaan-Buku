@@ -24,7 +24,7 @@ Route::middleware(['auth:sanctum', 'role:admin|member'])->group(function () {
     Route::get('author/slug/{slug}', [AuthorController::class, 'showBySlug']);
 
     // untuk admin yah
-    Route::middleware(['role:admin'])->group(function (){
+    Route::middleware(['role:admin'])->group(function () {
         // buku
         Route::post('buku', [BukuController::class, 'store']);
         Route::put('buku/{buku}', [BukuController::class, 'update']);
@@ -38,11 +38,15 @@ Route::middleware(['auth:sanctum', 'role:admin|member'])->group(function () {
         Route::post('author/{id}/restore', [AuthorController::class, 'restore']);
 
         // user
+        Route::get('users/statistics', [UserController::class, 'statistics']);
+        Route::get('users/search', [UserController::class, 'search']);
+        Route::get('users/role/{role}', [UserController::class, 'getByRole']);
+
+        // user umum
         Route::get('users', [UserController::class, 'index']);
         Route::get('users/{id}', [UserController::class, 'show']);
         Route::put('users/{id}', [UserController::class, 'update']);
         Route::delete('users/{id}', [UserController::class, 'destroy']);
-        Route::patch('users/{id}/toggle-status', [UserController::class, 'toggleStatusUsers']);
-        Route::get('users/statistics', [UserController::class, 'statistics']);
+        Route::patch('users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
     });
 });

@@ -2,10 +2,11 @@
 
 namespace App\Contracts\Repositories;
 
-use App\Contracts\Interfaces\UserInterface;
 use App\Models\User;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
+use App\Contracts\Interfaces\UserInterface;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserRepository extends BaseRepository implements UserInterface
 {
@@ -14,9 +15,13 @@ class UserRepository extends BaseRepository implements UserInterface
         $this->model = $User;
     }
 
-    public function getAllUsers(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    public function getAllUsers(array $filters = []): Collection
     {
-        $query = $this->model->query();
+        $query = $this->model->query()->with('roles');
+
+        if (isset($filters['role']) && !empty($filters['role'])) {
+            $query->role($filters['role']);
+        }
 
         if (isset($filters['is_active']) && $filters['is_active'] !== null) {
             $query->where('is_active', $filters['is_active']);
@@ -35,7 +40,35 @@ class UserRepository extends BaseRepository implements UserInterface
         $sortOrder = $filters['sort_order'] ?? 'desc';
         $query->orderBy($sortBy, $sortOrder);
 
-        return $query->paginate($perPage);
+        return $query->get();
+    }
+
+    public function getAllUsersPaginated(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    {
+        $query = $this->model->query()->with('roles');
+
+        if (isset($filters['role']) && !empty($filters['role'])) {
+            $query->role($filters['role']);
+        }
+        
+        if (isset($filters['is_active']) && $filters['is_active'] !== null) {
+            $query->where('is_active', $filters['is_active']);
+        }
+
+        if (isset($filters['search']) && !empty($filters['search'])) {
+            $search = $filters['search'];
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        // Sort
+        $sortBy = $filters['sort_by'] ?? 'created_at';
+        $sortOrder = $filters['sort_order'] ?? 'desc';
+        $query->orderBy($sortBy, $sortOrder);
+
+        return $query->paginate($query);
     }
 
     public function findById(int $id): ?User
@@ -111,7 +144,7 @@ class UserRepository extends BaseRepository implements UserInterface
     /**
      * Search users by name or email
      */
-    public function searchUsers(string $search): \Illuminate\Database\Eloquent\Collection
+    public function searchUsers(string $search): Collection
     {
         return $this->model->where(function ($query) use ($search) {
             $query->where('name', 'like', "%{$search}%")
@@ -122,9 +155,9 @@ class UserRepository extends BaseRepository implements UserInterface
     /**
      * Get users by role  
      */
-    public function getUsersByRole(string $role): \Illuminate\Database\Eloquent\Collection
+    public function getUsersByRole(string $role): Collection
     {
-        return $this->model->where('role', $role)->get();
+        return $this->model->where('roles', $role)->get();
     }
 
     /**

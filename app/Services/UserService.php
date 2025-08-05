@@ -17,7 +17,7 @@ class UserService
     public function getAllUsers(Request $request)
     {
         $filters = [
-            'role' => $request->get('role'),
+            'role' => $request->get('roles'),
             'is_active' => $request->has('is_active') ? $request->boolean('is_active') : null,
             'search' => $request->get('search'),
             'sort_by' => $request->get('sort_b', 'created_at'),
@@ -26,6 +26,11 @@ class UserService
 
         $perPage = $request->get('per_page', 15);
         return $this->userRepo->getAllUsers($filters, $perPage);
+    }
+
+    public function getAllUsersCollection(array $filters = [])
+    {
+        return $this->userRepo->getAllUsersPaginated($filters);
     }
 
     public function getUserById($id)

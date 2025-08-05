@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -9,6 +10,8 @@ class PaginateHelper
 {
     public static function format($data): array
     {
+        Log::info('PaginateHelper received data type: ' . get_class($data));
+
         if ($data instanceof LengthAwarePaginator) {
             return [
                 'data' => $data->items(),

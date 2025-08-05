@@ -18,6 +18,11 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'updated_at' => $this->updated_at,
+            'is_active' => $this->is_active,
+            'primary_role' => $this->whenLoaded('roles', function () {
+                return $this->role->first();
+            }),
             'roles' => $this->roles->pluck('name') ?? null,
         ];
     }
