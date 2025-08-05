@@ -7,6 +7,7 @@ use App\Services\UserService;
 use App\Helpers\ApiResponseHelper;
 use App\Helpers\PaginateHelper;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
@@ -24,7 +25,10 @@ class UserController extends Controller
         if (!$users) {
             return ApiResponseHelper::error('Gagal mengambil data', 404);
         }
-
+        
+        $users->getCollection()->transform(function ($user) {
+            return new UserResource($user);
+        });
         $formattedUser = PaginateHelper::format($users);
 
         return ApiResponseHelper::success($formattedUser, 'Berhasil mengambil data');
@@ -85,7 +89,8 @@ class UserController extends Controller
     {
         $search = $request->get('q', '');
         $users = $this->userService->searchUsers($search);
-        $formattedUser = PaginateHelper::format($users);
+        $userResource = UserResource::collection($users);
+        $formattedUser = PaginateHelper::format($userResource->collection);
 
         return ApiResponseHelper::success($formattedUser, 'Hasil pencarian user');
     }
@@ -93,7 +98,8 @@ class UserController extends Controller
     public function getByRole($role)
     {
         $users = $this->userService->getUserByRole($role);
-        $formattedUser = PaginateHelper::format($users);
+        $userResource = UserResource::collection($users);
+        $formattedUser = PaginateHelper::format($userResource->collection);
 
         return ApiResponseHelper::success($formattedUser, "Data user dengan role {$role}");
     }
