@@ -26,11 +26,9 @@ class UserController extends Controller
             return ApiResponseHelper::error('Gagal mengambil data', 404);
         }
         
-        $users->getCollection()->transform(function ($user) {
-            return new UserResource($user);
-        });
-        $formattedUser = PaginateHelper::format($users);
-
+        $userResource = UserResource::collection($users);
+        $formattedUser = PaginateHelper::format($userResource);
+        
         return ApiResponseHelper::success($formattedUser, 'Berhasil mengambil data');
     }
 

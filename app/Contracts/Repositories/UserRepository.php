@@ -38,7 +38,7 @@ class UserRepository extends BaseRepository implements UserInterface
         // Sort
         $sortBy = $filters['sort_by'] ?? 'created_at';
         $sortOrder = $filters['sort_order'] ?? 'desc';
-        $query->orderBy($sortBy, $sortOrder);
+    $query->orderBy($sortBy, $sortOrder);
 
         return $query->get();
     }
@@ -68,7 +68,7 @@ class UserRepository extends BaseRepository implements UserInterface
         $sortOrder = $filters['sort_order'] ?? 'desc';
         $query->orderBy($sortBy, $sortOrder);
 
-        return $query->paginate($query);
+        return $query->paginate($perPage);
     }
 
     public function findById(int $id): ?User
@@ -133,8 +133,8 @@ class UserRepository extends BaseRepository implements UserInterface
             'total_users' => $this->model->count(),
             'active_users' => $this->model->where('is_active', true)->count(),
             'inactive_users' => $this->model->where('is_active', false)->count(),
-            'admin_count' => $this->model->where('role', 'admin')->count(),
-            'member_count' => $this->model->where('role', 'member')->count(),
+            'admin_count' => $this->model->role('admin')->count(),
+            'member_count' => $this->model->role('member')->count(),
             'recent_registrations' => $this->model->where('created_at', '>=', now()->subDays(7))->count(),
             'users_this_month' => $this->model->whereMonth('created_at', now()->month)->count(),
             'users_today' => $this->model->whereDate('created_at', now()->toDateString())->count()
@@ -157,7 +157,7 @@ class UserRepository extends BaseRepository implements UserInterface
      */
     public function getUsersByRole(string $role): Collection
     {
-        return $this->model->where('roles', $role)->get();
+        return $this->model->role($role)->get();
     }
 
     /**

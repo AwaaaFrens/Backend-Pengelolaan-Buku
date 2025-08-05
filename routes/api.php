@@ -47,6 +47,6 @@ Route::middleware(['auth:sanctum', 'role:admin|member'])->group(function () {
         Route::get('users/{id}', [UserController::class, 'show']);
         Route::put('users/{id}', [UserController::class, 'update']);
         Route::delete('users/{id}', [UserController::class, 'destroy']);
-        Route::patch('users/{id}/toggle-status', [UserController::class, 'toggleStatus']);
+        Route::patch('users/{id}/toggle-status', [UserController::class, 'toggleStatusUsers']);
     });
 });
