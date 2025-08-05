@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ApiResponseHelper;
-use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\Request;
 use App\Services\UserService;
-use Illuminate\Support\Facades\Request;
+use App\Helpers\ApiResponseHelper;
+use App\Helpers\PaginateHelper;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -23,7 +24,10 @@ class UserController extends Controller
         if (!$users) {
             return ApiResponseHelper::error('Gagal mengambil data', 404);
         }
-        return ApiResponseHelper::success($users, 'Berhasil mengambil data');
+
+        $formattedUser = PaginateHelper::format($users);
+
+        return ApiResponseHelper::success($formattedUser, 'Berhasil mengambil data');
     }
 
     public function show($id)
@@ -75,5 +79,22 @@ class UserController extends Controller
         $stats = $this->userService->getUserStats();
 
         return ApiResponseHelper::success($stats, 'Stats user berhasil ditampilkan');
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('q', '');
+        $users = $this->userService->searchUsers($search);
+        $formattedUser = PaginateHelper::format($users);
+
+        return ApiResponseHelper::success($formattedUser, 'Hasil pencarian user');
+    }
+
+    public function getByRole($role)
+    {
+        $users = $this->userService->getUserByRole($role);
+        $formattedUser = PaginateHelper::format($users);
+
+        return ApiResponseHelper::success($formattedUser, "Data user dengan role {$role}");
     }
 }

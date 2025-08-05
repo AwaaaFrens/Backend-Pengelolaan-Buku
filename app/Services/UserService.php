@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Request;
 use App\Contracts\Repositories\UserRepository;
-use Illuminate\Support\Facades\Request;
 
 class UserService
 {
