@@ -53,7 +53,7 @@ class UserService
 
     public function updateUser($id, $request)
     {
-        $data = $request->only(['name', 'email', 'role', 'is_active']);
+        $data = $request->only(['name', 'email', 'is_active']);
 
         if ($request->has('password') && $request->password) {
             $data['password'] = $request->password;

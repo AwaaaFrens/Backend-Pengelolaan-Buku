@@ -78,7 +78,7 @@ class UserRepository extends BaseRepository implements UserInterface
 
     public function updateUser(int $id, array $data): ?User
     {
-        $user = $this->model->findById($id);
+        $user = $this->findById($id);
 
         if (!$user) {
             return null;
@@ -91,12 +91,12 @@ class UserRepository extends BaseRepository implements UserInterface
         }
 
         $user->update($data);
-        return $user->fresh($data);
+        return $user->fresh();
     }
 
     public function deleteUser(int $id): bool
     {
-        $user = $this->model->findById($id);
+        $user = $this->findById($id);
 
         if (!$user) {
             return false;
