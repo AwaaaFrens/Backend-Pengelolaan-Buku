@@ -101,4 +101,52 @@ class UserController extends Controller
 
         return ApiResponseHelper::success($formattedUser, "Data user dengan role {$role}");
     }
+
+    public function promoteUser(Request $request, $id)
+    {
+        try {
+            $currentId = auth()->id();
+    
+            if ($id == $currentId) {
+                return ApiResponseHelper::error('Tidak dapat mengubah role sendiri', 403);
+            }
+    
+            $user = $this->userService->promoteToAdmin($id);
+    
+            if (!$user) {
+                return ApiResponseHelper::error('Tidak menemukan User', 404);
+            }
+    
+            return ApiResponseHelper::success(
+                new UserResource($user),
+                'User berhasil menjadi Admin'
+            );
+        } catch (\Exception $e) {
+            return ApiResponseHelper::error($e->getMessage(), 500);
+        }
+    }
+
+    public function demoteUser(Request $request, $id)
+    {
+        try {
+            $currentId = auth()->id();
+    
+            if ($id == $currentId) {
+                return ApiResponseHelper::error('Tidak dapat mengubah role sendiri', 403);
+            }
+    
+            $user = $this->userService->demoteToMember($id);
+    
+            if (!$user) {
+                return ApiResponseHelper::error('Tidak menemukan User', 404);
+            }
+    
+            return ApiResponseHelper::success(
+                new UserResource($user),
+                'User kembali menjadi Member'
+            );
+        } catch (\Exception $e) {
+            return ApiResponseHelper::error($e->getMessage(), 500);
+        }
+    }
 }

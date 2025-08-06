@@ -22,6 +22,8 @@ interface UserInterface
 
     public function searchUsers(string $search): Collection;
 
+    public function updateUserRole(int $id, string $role): ?User;
+
     public function getUsersByRole(string $role): Collection;
 
     public function canDelete(int $id, int $currentIdUser): bool;

@@ -90,4 +90,14 @@ class UserService
     {
         return $this->userRepo->getUsersByRole($role);
     }
+
+    public function promoteToAdmin($id)
+    {
+        return $this->userRepo->updateUserRole($id, 'admin');
+    }
+
+    public function demoteToMember($id)
+    {
+        return $this->userRepo->updateUserRole($id, 'member');
+    }
 }

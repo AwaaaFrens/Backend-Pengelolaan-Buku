@@ -94,6 +94,19 @@ class UserRepository extends BaseRepository implements UserInterface
         return $user->fresh();
     }
 
+    public function updateUserRole(int $id, string $role): ?User
+    {
+        $user = $this->findById($id);
+
+        if (!$user) {
+            return null;
+        } 
+
+        $user->syncRoles([$role]);
+
+        return $user->fresh(['roles'])
+    }
+
     public function deleteUser(int $id): bool
     {
         $user = $this->findById($id);
