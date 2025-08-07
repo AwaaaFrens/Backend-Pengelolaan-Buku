@@ -104,7 +104,7 @@ class UserRepository extends BaseRepository implements UserInterface
 
         $user->syncRoles([$role]);
 
-        return $user->fresh(['roles'])
+        return $user->fresh(['roles']);
     }
 
     public function deleteUser(int $id): bool
