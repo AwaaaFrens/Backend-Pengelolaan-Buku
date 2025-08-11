@@ -90,4 +90,9 @@ class BukuService
     {
         return $this->bukuRepo->restore($id);
     }
+
+    public function searchBuku($search)
+    {
+        return $this->bukuRepo->searchBuku($search);
+    }
 }

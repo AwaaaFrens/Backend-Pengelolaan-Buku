@@ -15,6 +15,7 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware(['auth:sanctum', 'role:admin|member'])->group(function () {
     Route::get('buku', [BukuController::class, 'index']);
+    Route::get('buku/search', [BukuController::class, 'search']);
     Route::get('buku/{id}', [BukuController::class, 'show']);
     Route::get('buku/slug/{slug}', [BukuController::class, 'showBySlug']);
     Route::get('buku/statistik/genre', [BukuController::class, 'jumlahPerGenre']);

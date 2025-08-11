@@ -13,8 +13,8 @@ class Buku extends Model
     protected $guarded = [];
     protected $casts = ['genre' => 'array'];
 
-    public function authors()
+    public function author()
     {
-        return $this->belongsTo(Author::class);
+        return $this->belongsTo(Author::class, 'author_id');
     }
 }

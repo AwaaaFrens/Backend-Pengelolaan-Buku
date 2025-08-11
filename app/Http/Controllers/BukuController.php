@@ -106,4 +106,13 @@ class BukuController extends Controller
 
         return ApiResponseHelper::success($buku, 'Buku berhasil dikembalikan');
     }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('q', '');
+        $buku = $this->bukuService->searchBuku($search);
+        $formattedBuku = PaginateHelper::format($buku);
+
+        return ApiResponseHelper::success($formattedBuku, 'Hasil pencarian buku');
+    }
 }
