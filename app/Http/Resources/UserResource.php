@@ -21,9 +21,6 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'is_active' => $this->is_active,
-            'primary_role' => $this->whenLoaded('roles', function () {
-                return $this->roles->pluck('name')->first();
-            }),
             'roles' => $this->roles->pluck('name') ?? null,
         ];
     }
